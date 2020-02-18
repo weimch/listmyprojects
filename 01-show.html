@@ -1,0 +1,54 @@
+<!doctype html>
+
+<head>
+    <title>Gossip分布式数据同步协议实现</title>
+    <link rel="stylesheet" href="skin/skin.css">
+    <style>
+    body { 
+        font: 12px "Myriad Pro", "Lucida Grande", sans-serif; 
+        width: 80%;
+        margin: auto auto auto auto;
+    }
+    #description{
+        font-size: 1.3em;
+    }
+    </style>
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="flowplayer.min.js"></script>
+</head>
+
+<body>
+    <h1>Gossip基本操作演示</h1>
+    <div id="description">
+        <p>场景：任意客户端和任意服务器</p>
+        <ul>
+            <li>客户端会通过请求更改一个服务端的数据</li>
+            <li>服务端通过Gossip协议维持服务端间数据的一致性</li>
+        </ul>
+        <p>实现主要细节</p>
+        <ul>
+            <li><a href="file/Gossip.Arch.pdf">架构设计标准</a></li>
+            <li>使用了Java RMI完成服务器之间的交互</li>
+            <li>完全实现了Gossip协议：
+                <ol>
+                    <li>简单地来说，在一个服务器数据发生变化时，向其临近的服务器发送一个带有时间戳的包含数据变更的信息，然后临近服务器也向其他临近服务器发送同样的信息，这样经过一段时间之后整个服务器集群的信息就能达到同步</li>
+                    <li>这个协议的实现来自于<span style="color: blue;">时间戳</span>的巧妙设计，显然，在分布式的系统中，时间同步是一个非常的问题，因此这里的<span style="color: blue;">时间戳</span>不是一般意义的系统时间戳系列，而是一个向量，向量中包含每个值的最新版本</li>
+                    <li>这样避免分布式系统中难以完全一致的时间同步，仅使用一个整数代表每个值的版本数，即可表达最新的时间戳，因为最新时间戳向量范数一定大于或等于当前服务器老的时间戳</li>
+                </ol>
+            </li>
+            <li>设计了负载均衡的LoadBalancer，设置了访问一个服务器不成功时，选择替换服务器的模拟</li>
+        </ul>
+    </div>
+    <h2>演示1-单客户端-多服务端演示</h2>
+    <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
+        <video>
+            <source type="video/mp4" src="https://listmyproject-video.oss-cn-shenzhen.aliyuncs.com/01-gossip%E5%88%86%E5%B8%83%E5%BC%8F%E6%8A%80%E6%9C%AF/01-Gossip%E5%9F%BA%E6%9C%AC%E6%BC%94%E7%A4%BA.mp4">
+        </video>
+    </div>
+    <h2>演示2-多客户端同时操作</h2>
+    <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
+        <video>
+            <source type="video/mp4" src="https://listmyproject-video.oss-cn-shenzhen.aliyuncs.com/01-gossip%E5%88%86%E5%B8%83%E5%BC%8F%E6%8A%80%E6%9C%AF/01-Gossip%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%BC%94%E7%A4%BA.mp4">
+        </video>
+    </div>
+</body>
