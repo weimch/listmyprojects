@@ -1,0 +1,49 @@
+<!doctype html>
+
+<head>
+    <title>Gnutella协议实现</title>
+    <link rel="stylesheet" href="skin/skin.css">
+    <style>
+    body { 
+        font: 12px "Myriad Pro", "Lucida Grande", sans-serif; 
+        width: 80%;
+        margin: auto auto auto auto;
+    }
+    #description{
+        font-size: 1.3em;
+    }
+    </style>
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="flowplayer.min.js"></script>
+</head>
+
+<body>
+    <h1>Gnutella协议实现</h1>
+    <div id="description">
+            <ul>实现协议细节：
+                <li><a href="file/gnutella_protocol_0.4.pdf">Gnutella协议细节</a></li>
+            </ul>
+        <p>场景：分布式网络中下载文件</p>
+        <ul>
+            <li>在点对点的分布式网络中，每个点是一个主机</li>
+            <li>每个主机即可作为客户端，又可作为服务端</li>
+        </ul>
+        <p>实现主要细节</p>
+        <ul>
+            <li>使用TCP维持服务器与服务器之间的连接
+                <ul>
+                    <li>一开始就建立起来服务器与服务器之间的TCP连接</li>
+                    <li>由此构成一个网络</li>
+                    <li>该网络仅用于传递操作请求</li>
+                    <li>请求文件数据的下载，是通过点与点之间建立HTTP连接，通过HTTP协议进行传输的</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <h2>演示-Gnutella协议基本操作</h2>
+    <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
+        <video>
+            <source type="video/mp4" src="https://listmyproject-video.oss-cn-shenzhen.aliyuncs.com/05-gnutella-%E6%BC%94%E7%A4%BA%E8%A7%86%E9%A2%91.mp4">
+        </video>
+    </div>
+</body>
